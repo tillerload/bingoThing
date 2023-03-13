@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bingo Card</title>
+    <style>
+      .bingo-card {
+        border-collapse: collapse;
+        margin: auto;
+        font-size: 1.5em;
+        font-family: Arial, sans-serif;
+      }
+
+      .bingo-card td {
+        border: 2px solid #333;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        width: 150px;
+        height: 150px;
+      }
+
+      .bingo-card td.free {
+        font-weight: bold;
+      }
+
+      .bingo-card td.clicked {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function createBingoCard(myChallenges) {
+        // Shuffle the challenges using Fisher-Yates shuffle algorithm
+        for (let i = myChallenges.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [myChallenges[i], myChallenges[j]] = [myChallenges[j], myChallenges[i]];
+        }
+
+        // Create a table to hold the bingo card
+        const table = document.createElement('table');
+        table.setAttribute('class', 'bingo-card');
+
+        // Create rows and cells for the bingo card
+        for (let i = 0; i < 5; i++) {
+          const row = table.insertRow();
+          for (let j = 0; j < 5; j++) {
+            const cell = row.insertCell();
+            if (i === 2 && j === 2) {
+              // The center cell is marked as "Free"
+              cell.innerText = 'Free';
+              cell.setAttribute('class', 'free');
+            } else {
+              // Populate the other cells with shuffled challenges
+              cell.innerText = myChallenges[i * 5 + j];
+              cell.setAttribute('class', 'challenge');
+            }
+
+            // Add a click event listener to each cell
+            cell.addEventListener('click', function() {
+              if (cell.getAttribute('class') === 'challenge') {
+                cell.setAttribute('class', 'clicked');
+              } else if (cell.getAttribute('class') === 'clicked') {
+                cell.setAttribute('class', 'challenge');
+              }
+            });
+          }
+        }
+
+        // Return the bingo card table
+        return table;
+      }
+
+      // Array of bingo challenges
+      const myChallenges = [
+      'Spawn till round 5',
+      'kill hound with nade',
+      'die 3 times',
+      'get niko',
+      'crouch till round 4',
+      'no sprinting till 10',
+      'all wall weapons',
+      'all doors',
+      'pack before round 10',
+      'sheiva only until 12',
+      'use all ammo in rocket launcher',
+      'no perks till round 15',
+      'all drops',
+      'Survive a full round using only explosives',
+      'Survive 10 rounds without taking any damage',
+      'Reach round 20 without using any Mystery Box weapons.',
+      'get monkey bombs',
+      'only bowie for an entire round',
+      '300 headshots',
+      'only use 1 gun for 5 rounds (past round 10)',
+      'aquire wonder weapon',
+      'only wonderfizz for perks',
+      'discard 3 packed weapons',
+      '30 000k',
+      'Run a train of zombies around the map without killing any for one round.',
+      'Play the game with inverted controls for one round.',
+      'Use only burst-fire weapons for one round',
+      'play a round without moving',
+      ];
+
+      // Create a bingo card and add it to the HTML body
+      const bingoCard = createBingoCard(myChallenges);
+      document.body.appendChild(bingoCard);
+    </script>
+  </body>
+</html>
